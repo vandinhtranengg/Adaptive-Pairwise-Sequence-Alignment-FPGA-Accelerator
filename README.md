@@ -1,4 +1,4 @@
-# Adaptive-Pairwise-Sequence-Alignment-FPGA-Accelerator
+# Adaptive Pairwise Sequence Alignment
 
 ## Project overview
 
@@ -48,38 +48,38 @@ All software implementations in this repository solve the same problem:
 
 > Global pairwise sequence alignment using unit-cost Levenshtein edit distance.
 
-For two sequences \(A\) and \(B\), the recurrence is:
+For two sequences $A$ and $B$, the recurrence is:
 
-\[
+$$
 D(i,j)=\min
 \begin{cases}
 D(i-1,j)+1 \\
 D(i,j-1)+1 \\
 D(i-1,j-1)+\delta(a_i,b_j)
 \end{cases}
-\]
+$$
 
 where:
 
-\[
+$$
 \delta(a_i,b_j)=
 \begin{cases}
 0,&a_i=b_j \\
 1,&a_i\neq b_j
 \end{cases}
-\]
+$$
 
 The boundary conditions are:
 
-\[
+$$
 D(i,0)=i,\qquad D(0,j)=j
-\]
+$$
 
 The final edit distance is:
 
-\[
+$$
 d(A,B)=D(|A|,|B|)
-\]
+$$
 
 ### Scoring model
 
@@ -167,15 +167,15 @@ Main characteristics:
 
 Complexity:
 
-\[
+$$
 O(mn)\text{ time}
-\]
+$$
 
 with:
 
-\[
+$$
 O(\min(m,n))
-\]
+$$
 
 active dynamic-programming storage.
 
@@ -198,25 +198,25 @@ The algorithm returns `ALIGN_LENGTH_UNSUPPORTED` when the shorter sequence is lo
 
 Banded Needleman-Wunsch evaluates only cells within a diagonal band:
 
-\[
+$$
 |i-j|\leq K
-\]
+$$
 
 Main characteristics:
 
-- exact result when \(K\) is large enough;
+- exact result when $K$ is large enough;
 - reduced computation for similar sequences;
-- maximum supported \(K\) of 128;
+- maximum supported $K$ of 128;
 - fixed-size row buffers;
-- early rejection when the sequence-length difference already exceeds \(K\);
+- early rejection when the sequence-length difference already exceeds $K$;
 - explicit `ALIGN_DISTANCE_GREATER_THAN_K` status when the true distance is outside the band.
 
 The expected correctness condition is:
 
-\[
+$$
 d_{\text{BandedNW}}=d_{\text{FullNW}}
 \quad\text{when }K\geq d(A,B)
-\]
+$$
 
 ### Wavefront Alignment
 
@@ -276,26 +276,26 @@ Full Needleman-Wunsch
 
 The required relationships are:
 
-\[
+$$
 d_{\text{Myers}}
 =
 d_{\text{FullNW}}
-\]
+$$
 
-\[
+$$
 d_{\text{WFA}}
 =
 d_{\text{FullNW}}
-\]
+$$
 
 and:
 
-\[
+$$
 d_{\text{BandedNW}}
 =
 d_{\text{FullNW}}
 \quad\text{when }K\geq d(A,B)
-\]
+$$
 
 The regression code also checks that bounded algorithms return the correct status when their limits are too small.
 
@@ -339,11 +339,11 @@ The mutation budget is divided among substitutions, insertions, and deletions. T
 
 This profile explicitly controls:
 
-\[
+$$
 |B|-|A|
-\]
+$$
 
-A positive value makes sequence \(B\) longer, while a negative value makes sequence \(B\) shorter.
+A positive value makes sequence $B$ longer, while a negative value makes sequence $B$ shorter.
 
 Example:
 
@@ -361,7 +361,7 @@ This requests:
 - base sequence length: 256;
 - target mutation rate: 10%;
 - controlled length profile;
-- final length difference: \( |B|-|A|=16 \).
+- final length difference: $ |B|-|A|=16 $.
 
 ### Dataset metadata
 
@@ -397,20 +397,20 @@ The exact distance is calculated with Full Needleman-Wunsch after generation.
 
 The true edit rate is:
 
-\[
+$$
 R_{\text{edit}}
 =
 \frac{d(A,B)}
 {\max(|A|,|B|)}
-\]
+$$
 
 The corresponding similarity is:
 
-\[
+$$
 S_{\text{true}}
 =
 1-R_{\text{edit}}
-\]
+$$
 
 The number of applied mutations is stored separately from the exact edit distance. These values can differ because the resulting sequence pair may have an alternative edit script with fewer operations.
 
