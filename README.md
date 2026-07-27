@@ -276,26 +276,26 @@ Full Needleman-Wunsch
 
 The required relationships are:
 
-$$
-d_{\text{Myers}}
+```math
+d_{\mathrm{Myers}}
 =
-d_{\text{FullNW}}
-$$
+d_{\mathrm{FullNW}}
+```
 
-$$
-d_{\text{WFA}}
+```math
+d_{\mathrm{WFA}}
 =
-d_{\text{FullNW}}
-$$
+d_{\mathrm{FullNW}}
+```
 
 and:
 
-$$
-d_{\text{BandedNW}}
+```math
+d_{\mathrm{BandedNW}}
 =
-d_{\text{FullNW}}
+d_{\mathrm{FullNW}}
 \quad\text{when }K\geq d(A,B)
-$$
+```
 
 The regression code also checks that bounded algorithms return the correct status when their limits are too small.
 
@@ -397,20 +397,20 @@ The exact distance is calculated with Full Needleman-Wunsch after generation.
 
 The true edit rate is:
 
-$$
+```math
 R_{\text{edit}}
 =
 \frac{d(A,B)}
 {\max(|A|,|B|)}
-$$
+```
 
 The corresponding similarity is:
 
-$$
+```math
 S_{\text{true}}
 =
 1-R_{\text{edit}}
-$$
+```
 
 The number of applied mutations is stored separately from the exact edit distance. These values can differ because the resulting sequence pair may have an alternative edit script with fewer operations.
 
